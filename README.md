@@ -1,13 +1,14 @@
-## AIRTABLE (GRATUITO limitaciones):
-
+## AIRTABLE (GRATUITO limitaciones)
 ## Características:
 * Solo acepta 1000 registros en Excel
 * Hasta 1GB en cada base de datos
 * Hasta 5 solicitudes en la api por segundo
 
-## AIRTABLE CONFIGURAR: El link https://airtable.com/BD_URL/TABLE_URL/URL (distribuido de la BD_URL y de la tabla TABLE_URL 
+## AIRTABLE CONFIGURAR: 
+El link https://airtable.com/BD_URL/TABLE_URL/URL (distribuido de la BD_URL y de la tabla TABLE_URL 
 
-## API de Airtable: Buscar Airtable rest api docs https://airtable.com/developers/web/api/introduction . Luego  ingresar la BD creada buscar el link del endpoint
+## API de Airtable: 
+Buscar Airtable rest api docs https://airtable.com/developers/web/api/introduction . Luego  ingresar la BD creada buscar el link del endpoint
 
 ## INTEGRA PYHTON CON AIRTABLE:
 * Comandos 
