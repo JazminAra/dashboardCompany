@@ -1,0 +1,498 @@
+
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+<!--  Row 1 -->
+        <div class="row">
+            <div class="col-lg-8 d-flex align-items-strech">
+              <form method="GET" action="{% url 'main_dashboard' %}">
+                <div class="card mb-4">
+                  <div class="card-header">
+                    <h4 class="card-title">Filtros</h4>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <!-- Filtro de Fecha -->
+                      <div class="col-md-3">
+                        <label for="start_date">Fecha de Emisión</label>
+                        <input type="date" class="form-control" name="start_date" id="start_date" />
+                      </div>
+                      <div class="col-md-3">
+                        <label for="end_date">Fecha de Recepción</label>
+                        <input type="date" class="form-control" name="end_date" id="end_date" />
+                      </div>
+
+                      <!-- Filtro de Asunto -->
+                      <div class="col-md-6">
+                        <label for="keyword">Palabra clave en Asunto</label>
+                        <input type="text" class="form-control w-100" name="keyword" id="keyword" placeholder="Buscar en asunto" />
+                      </div>
+        
+                      <!-- Filtro de Tiempo de Atención -->
+                      <div class="col-md-3 mt-3">
+                        <label for="tiempo_atencion">Tiempo de Atención</label>
+                        <div class="accordion" id="tiempoAccordion">
+                          <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingTiempo">
+                              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTiempo" aria-expanded="false" aria-controls="collapseTiempo">
+                                Selecciona
+                              </button>
+                            </h2>
+                            <div id="collapseTiempo" class="accordion-collapse collapse" aria-labelledby="headingTiempo" data-bs-parent="#tiempoAccordion">
+                              <div class="accordion-body">
+                                <!-- Casillas de verificación generadas dinámicamente -->
+                                {% for tiempo in tiempo_atencion_values %}
+                                  <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" name="tiempo_atencion[]" id="tiempo_{{ tiempo }}" value="{{ tiempo }}">
+                                    <label class="form-check-label" for="tiempo_{{ tiempo }}">{{ tiempo }} días</label>
+                                  </div>
+                                {% endfor %}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      
+                      <!-- Filtro de Semáforo -->
+                      <div class="col-md-4 mt-3">
+                        <label for="semaforo">Semáforo</label>
+                        <div class="accordion" id="semaforoAccordion">
+                          <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingSemaforo">
+                              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSemaforo" aria-expanded="false" aria-controls="collapseSemaforo">
+                                Selecciona
+                              </button>
+                            </h2>
+                            <div id="collapseSemaforo" class="accordion-collapse collapse" aria-labelledby="headingSemaforo" data-bs-parent="#semaforoAccordion">
+                              <div class="accordion-body">
+                                <!-- Casillas de verificación para el semáforo -->
+                                <div class="form-check">
+                                  <input type="checkbox" class="form-check-input" name="semaforo[]" id="semaforo_verde" value="Verde">
+                                  <label class="form-check-label" for="semaforo_verde">Verde (<= 1 día)</label>
+                                </div>
+                                <div class="form-check">
+                                  <input type="checkbox" class="form-check-input" name="semaforo[]" id="semaforo_amarillo" value="Amarillo">
+                                  <label class="form-check-label" for="semaforo_amarillo">Amarillo (2 días)</label>
+                                </div>
+                                <div class="form-check">
+                                  <input type="checkbox" class="form-check-input" name="semaforo[]" id="semaforo_rojo" value="Rojo">
+                                  <label class="form-check-label" for="semaforo_rojo">Rojo (3-4 días)</label>
+                                </div>
+                                <div class="form-check">
+                                  <input type="checkbox" class="form-check-input" name="semaforo[]" id="semaforo_negro" value="Negro">
+                                  <label class="form-check-label" for="semaforo_negro">Negro (>= 5 días)</label>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>                      
+                      
+                    </div>
+                    <div class="mt-3">
+                      <button type="submit" class="btn btn-primary">Aplicar</button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="col-lg-4">
+              <div class="row">
+                <div class="col-lg-12">
+                  <!-- Yearly Breakup -->
+                  <div class="card overflow-hidden">
+                    <div class="card-body p-4">
+                      <h5 class="card-title mb-9 fw-semibold">Total de Documentos Únicos</h5>
+                      <div class="row align-items-center">
+                        <div class="col-8">
+                           <!-- Mostrar la cantidad total de documentos únicos -->
+                          <div class="d-flex align-items-center mb-3">
+                            <span class="me-1 rounded-circle bg-light-success round-20 d-flex align-items-center justify-content-center">
+                              <i class="ti ti-arrow-up-left text-success"></i>
+                            </span>
+                            <h4 class="fw-semibold mb-3">{{ total_unique_documents }}</h4> 
+                            <!-- <p class="text-dark me-1 fs-3 mb-0">+9%</p>
+                            <p class="fs-3 mb-0">last year</p> -->
+                          </div>
+                          <div class="d-flex align-items-center">
+                            <div class="me-4">
+                              <span class="round-8 bg-primary rounded-circle me-2 d-inline-block"></span>
+                              <span class="fs-2">2025</span>
+                            </div>
+                            <div>
+                              <span class="round-8 bg-light-primary rounded-circle me-2 d-inline-block"></span>
+                              <span class="fs-2">2025</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-4">
+                          <div class="d-flex justify-content-center">
+                            <div id="breakup"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>                  
+                </div>
+                <div class="col-lg-12">
+                  <!-- Monthly Earnings -->
+                  <div class="card">
+                    <div class="card-body">
+                        <div class="row align-items-start">
+                            <div class="col-8">
+                                <h5 class="card-title mb-9 fw-semibold">Total de Registros</h5>
+                                 <!-- Mostrar la cantidad total de registros -->
+                                <div class="d-flex align-items-center pb-1">
+                                    <span class="me-2 rounded-circle bg-light-danger round-20 d-flex align-items-center justify-content-center">
+                                        <i class="ti ti-arrow-down-right text-danger"></i>
+                                    </span> 
+                                    <h4 class="fw-semibold mb-3">{{ total_records }}</h4> 
+                                    <!-- <p class="text-dark me-1 fs-3 mb-0">+9%</p>
+                                    <p class="fs-3 mb-0">last year</p> --> 
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="d-flex justify-content-end">
+                                    <div class="text-white bg-secondary rounded-circle p-6 d-flex align-items-center justify-content-center">
+                                      <i class="ti ti-file-text fs-6"></i>
+
+                                      <!-- <i class="ti ti-currency-dollar fs-6"></i> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="earning"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+         <!-- <div class="row">
+            <div class="col-lg-4 d-flex align-items-stretch">
+              <div class="card w-100">
+                <div class="card-body p-4">
+                  <div class="mb-4">
+                    <h5 class="card-title fw-semibold">Recent Transactions</h5>
+                  </div>
+                  <ul class="timeline-widget mb-0 position-relative mb-n5">
+                    <li class="timeline-item d-flex position-relative overflow-hidden">
+                      <div class="timeline-time text-dark flex-shrink-0 text-end">09:30</div>
+                      <div class="timeline-badge-wrap d-flex flex-column align-items-center">
+                        <span class="timeline-badge border-2 border border-primary flex-shrink-0 my-8"></span>
+                        <span class="timeline-badge-border d-block flex-shrink-0"></span>
+                      </div>
+                      <div class="timeline-desc fs-3 text-dark mt-n1">Payment received from John Doe of $385.90</div>
+                    </li>
+                    <li class="timeline-item d-flex position-relative overflow-hidden">
+                      <div class="timeline-time text-dark flex-shrink-0 text-end">10:00 am</div>
+                      <div class="timeline-badge-wrap d-flex flex-column align-items-center">
+                        <span class="timeline-badge border-2 border border-info flex-shrink-0 my-8"></span>
+                        <span class="timeline-badge-border d-block flex-shrink-0"></span>
+                      </div>
+                      <div class="timeline-desc fs-3 text-dark mt-n1 fw-semibold">New sale recorded <a
+                          href="javascript:void(0)" class="text-primary d-block fw-normal">#ML-3467</a>
+                      </div>
+                    </li>
+                    <li class="timeline-item d-flex position-relative overflow-hidden">
+                      <div class="timeline-time text-dark flex-shrink-0 text-end">12:00 am</div>
+                      <div class="timeline-badge-wrap d-flex flex-column align-items-center">
+                        <span class="timeline-badge border-2 border border-success flex-shrink-0 my-8"></span>
+                        <span class="timeline-badge-border d-block flex-shrink-0"></span>
+                      </div>
+                      <div class="timeline-desc fs-3 text-dark mt-n1">Payment was made of $64.95 to Michael</div>
+                    </li>
+                    <li class="timeline-item d-flex position-relative overflow-hidden">
+                      <div class="timeline-time text-dark flex-shrink-0 text-end">09:30 am</div>
+                      <div class="timeline-badge-wrap d-flex flex-column align-items-center">
+                        <span class="timeline-badge border-2 border border-warning flex-shrink-0 my-8"></span>
+                        <span class="timeline-badge-border d-block flex-shrink-0"></span>
+                      </div>
+                      <div class="timeline-desc fs-3 text-dark mt-n1 fw-semibold">New sale recorded <a
+                          href="javascript:void(0)" class="text-primary d-block fw-normal">#ML-3467</a>
+                      </div>
+                    </li>
+                    <li class="timeline-item d-flex position-relative overflow-hidden">
+                      <div class="timeline-time text-dark flex-shrink-0 text-end">09:30 am</div>
+                      <div class="timeline-badge-wrap d-flex flex-column align-items-center">
+                        <span class="timeline-badge border-2 border border-danger flex-shrink-0 my-8"></span>
+                        <span class="timeline-badge-border d-block flex-shrink-0"></span>
+                      </div>
+                      <div class="timeline-desc fs-3 text-dark mt-n1 fw-semibold">New arrival recorded 
+                      </div>
+                    </li>
+                    <li class="timeline-item d-flex position-relative overflow-hidden">
+                      <div class="timeline-time text-dark flex-shrink-0 text-end">12:00 am</div>
+                      <div class="timeline-badge-wrap d-flex flex-column align-items-center">
+                        <span class="timeline-badge border-2 border border-success flex-shrink-0 my-8"></span>
+                      </div>
+                      <div class="timeline-desc fs-3 text-dark mt-n1">Payment Done</div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-8 d-flex align-items-stretch">
+              <div class="card w-100">
+                <div class="card-body p-4">
+                  <h5 class="card-title fw-semibold mb-4">Recent Transactions</h5>
+                  <div class="table-responsive">
+                    <table class="table text-nowrap mb-0 align-middle">
+                      <thead class="text-dark fs-4">
+                        <tr>
+                          <th class="border-bottom-0">
+                            <h6 class="fw-semibold mb-0">Id</h6>
+                          </th>
+                          <th class="border-bottom-0">
+                            <h6 class="fw-semibold mb-0">Assigned</h6>
+                          </th>
+                          <th class="border-bottom-0">
+                            <h6 class="fw-semibold mb-0">Name</h6>
+                          </th>
+                          <th class="border-bottom-0">
+                            <h6 class="fw-semibold mb-0">Priority</h6>
+                          </th>
+                          <th class="border-bottom-0">
+                            <h6 class="fw-semibold mb-0">Budget</h6>
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="border-bottom-0"><h6 class="fw-semibold mb-0">1</h6></td>
+                          <td class="border-bottom-0">
+                              <h6 class="fw-semibold mb-1">Sunil Joshi</h6>
+                              <span class="fw-normal">Web Designer</span>                          
+                          </td>
+                          <td class="border-bottom-0">
+                            <p class="mb-0 fw-normal">Elite Admin</p>
+                          </td>
+                          <td class="border-bottom-0">
+                            <div class="d-flex align-items-center gap-2">
+                              <span class="badge bg-primary rounded-3 fw-semibold">Low</span>
+                            </div>
+                          </td>
+                          <td class="border-bottom-0">
+                            <h6 class="fw-semibold mb-0 fs-4">$3.9</h6>
+                          </td>
+                        </tr> 
+                        <tr>
+                          <td class="border-bottom-0"><h6 class="fw-semibold mb-0">2</h6></td>
+                          <td class="border-bottom-0">
+                              <h6 class="fw-semibold mb-1">Andrew McDownland</h6>
+                              <span class="fw-normal">Project Manager</span>                          
+                          </td>
+                          <td class="border-bottom-0">
+                            <p class="mb-0 fw-normal">Real Homes WP Theme</p>
+                          </td>
+                          <td class="border-bottom-0">
+                            <div class="d-flex align-items-center gap-2">
+                              <span class="badge bg-secondary rounded-3 fw-semibold">Medium</span>
+                            </div>
+                          </td>
+                          <td class="border-bottom-0">
+                            <h6 class="fw-semibold mb-0 fs-4">$24.5k</h6>
+                          </td>
+                        </tr> 
+                        <tr>
+                          <td class="border-bottom-0"><h6 class="fw-semibold mb-0">3</h6></td>
+                          <td class="border-bottom-0">
+                              <h6 class="fw-semibold mb-1">Christopher Jamil</h6>
+                              <span class="fw-normal">Project Manager</span>                          
+                          </td>
+                          <td class="border-bottom-0">
+                            <p class="mb-0 fw-normal">MedicalPro WP Theme</p>
+                          </td>
+                          <td class="border-bottom-0">
+                            <div class="d-flex align-items-center gap-2">
+                              <span class="badge bg-danger rounded-3 fw-semibold">High</span>
+                            </div>
+                          </td>
+                          <td class="border-bottom-0">
+                            <h6 class="fw-semibold mb-0 fs-4">$12.8k</h6>
+                          </td>
+                        </tr>      
+                        <tr>
+                          <td class="border-bottom-0"><h6 class="fw-semibold mb-0">4</h6></td>
+                          <td class="border-bottom-0">
+                              <h6 class="fw-semibold mb-1">Nirav Joshi</h6>
+                              <span class="fw-normal">Frontend Engineer</span>                          
+                          </td>
+                          <td class="border-bottom-0">
+                            <p class="mb-0 fw-normal">Hosting Press HTML</p>
+                          </td>
+                          <td class="border-bottom-0">
+                            <div class="d-flex align-items-center gap-2">
+                              <span class="badge bg-success rounded-3 fw-semibold">Critical</span>
+                            </div>
+                          </td>
+                          <td class="border-bottom-0">
+                            <h6 class="fw-semibold mb-0 fs-4">$2.4k</h6>
+                          </td>
+                        </tr>                       
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>-->
+          <div class="row">
+            <div class="col-lg-30 d-flex align-items-stretch">
+                <div class="card w-100">
+                    <div class="card-body">
+                        <h5 class="card-title fw-semibold">Tiempo de Atención por Destinatario</h5>
+                        <!-- Mostrar el gráfico con dos subgráficos -->
+                        {{ plot_html|safe }}
+                    </div>
+                </div>
+            </div>
+          </div>
+               
+          <div class="row">
+            <div class="col-lg-8 d-flex align-items-stretch">
+              <div class="card w-100">
+                <div class="card-body">
+                  <div class="d-sm-flex d-block align-items-center justify-content-between mb-9">
+                    <div class="mb-3 mb-sm-0">
+                        <h5 class="card-title fw-semibold">Semáforo</h5>
+                    </div>
+                  </div>
+                  <!-- Mostrar el gráfico de semáforo -->
+                    {{ plot_1 | safe }}
+                  <div class="mt-4">
+                      <h6><strong>Leyenda:</strong></h6>
+                      <ul>
+                          <li><span class="badge bg-success rounded-3">Verde</span> <= 1 día ({{ semaforo_counts.Verde }})</li>
+                          <li><span class="badge bg-warning text-dark rounded-3">Amarillo</span> = 2 días ({{ semaforo_counts.Amarillo }})</li>
+                          <li><span class="badge bg-danger rounded-3">Rojo</span> = 3 - 4 días ({{ semaforo_counts.Rojo }})</li>
+                          <li><span class="badge bg-dark rounded-3">Negro</span> >= 5 días ({{ semaforo_counts.Negro }})</li>
+                      </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+         
+          <div class="row">
+            <div class="col-lg-8 d-flex align-items-stretch">
+                <div class="card w-100">
+                    <div class="card-body">
+                        <div class="d-sm-flex d-block align-items-center justify-content-between mb-10">
+                            <div class="mb-4 mb-sm-0">
+                                <h5 class="card-title fw-semibold">Tipo de Documentos</h5>
+                            </div>
+                        </div>
+        
+                        <!-- Mostrar el gráfico de tipo de documentos -->
+                           {{ plot_2 | safe }}
+        
+                        <!-- Leyenda -->
+                        <div class="mt-4">
+                            <h6><strong>Leyenda:</strong></h6>
+                            <ul>
+                              <li><span class="badge bg-primary rounded-3">CARTA</span> ({{ doc_counts.CARTA }})</li>
+                              <li><span class="badge bg-secondary rounded-3">HOJA DE ENVÍO</span> ({{ doc_counts.HOJA_DE_ENVIO }})</li>
+                              <li><span class="badge bg-success rounded-3">INFORME</span> ({{ doc_counts.INFORME }})</li>
+                              <li><span class="badge bg-warning text-dark rounded-3">MEMORANDO MÚLTIPLE</span> ({{ doc_counts.MEMORANDO_MULTIPLE }})</li>
+                              <li><span class="badge bg-danger rounded-3">OFICIO</span> ({{ doc_counts.OFICIO }})</li>
+                              <li><span class="badge bg-info text-dark rounded-3">OFICIO MÚLTIPLE</span> ({{ doc_counts.OFICIO_MULTIPLE }})</li>
+                              <li><span class="badge bg-dark rounded-3">PROVEÍDO</span> ({{ doc_counts.PROVEIDO }})</li>
+                          </ul>
+                          
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+
+        <!--  <div class="row">
+            <div class="col-sm-6 col-xl-3">
+              <div class="card overflow-hidden rounded-2">
+                <div class="position-relative">
+                  <a href="javascript:void(0)"><img src="../assets/images/products/s4.jpg" class="card-img-top rounded-0" alt="..."></a>
+                  <a href="javascript:void(0)" class="bg-primary rounded-circle p-2 text-white d-inline-flex position-absolute bottom-0 end-0 mb-n3 me-3" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Add To Cart"><i class="ti ti-basket fs-4"></i></a>                      </div>
+                <div class="card-body pt-3 p-4">
+                  <h6 class="fw-semibold fs-4">Boat Headphone</h6>
+                  <div class="d-flex align-items-center justify-content-between">
+                    <h6 class="fw-semibold fs-4 mb-0">$50 <span class="ms-2 fw-normal text-muted fs-3"><del>$65</del></span></h6>
+                    <ul class="list-unstyled d-flex align-items-center mb-0">
+                      <li><a class="me-1" href="javascript:void(0)"><i class="ti ti-star text-warning"></i></a></li>
+                      <li><a class="me-1" href="javascript:void(0)"><i class="ti ti-star text-warning"></i></a></li>
+                      <li><a class="me-1" href="javascript:void(0)"><i class="ti ti-star text-warning"></i></a></li>
+                      <li><a class="me-1" href="javascript:void(0)"><i class="ti ti-star text-warning"></i></a></li>
+                      <li><a class="" href="javascript:void(0)"><i class="ti ti-star text-warning"></i></a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+              <div class="card overflow-hidden rounded-2">
+                <div class="position-relative">
+                  <a href="javascript:void(0)"><img src="../assets/images/products/s5.jpg" class="card-img-top rounded-0" alt="..."></a>
+                  <a href="javascript:void(0)" class="bg-primary rounded-circle p-2 text-white d-inline-flex position-absolute bottom-0 end-0 mb-n3 me-3" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Add To Cart"><i class="ti ti-basket fs-4"></i></a>                      </div>
+                <div class="card-body pt-3 p-4">
+                  <h6 class="fw-semibold fs-4">MacBook Air Pro</h6>
+                  <div class="d-flex align-items-center justify-content-between">
+                    <h6 class="fw-semibold fs-4 mb-0">$650 <span class="ms-2 fw-normal text-muted fs-3"><del>$900</del></span></h6>
+                    <ul class="list-unstyled d-flex align-items-center mb-0">
+                      <li><a class="me-1" href="javascript:void(0)"><i class="ti ti-star text-warning"></i></a></li>
+                      <li><a class="me-1" href="javascript:void(0)"><i class="ti ti-star text-warning"></i></a></li>
+                      <li><a class="me-1" href="javascript:void(0)"><i class="ti ti-star text-warning"></i></a></li>
+                      <li><a class="me-1" href="javascript:void(0)"><i class="ti ti-star text-warning"></i></a></li>
+                      <li><a class="" href="javascript:void(0)"><i class="ti ti-star text-warning"></i></a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+              <div class="card overflow-hidden rounded-2">
+                <div class="position-relative">
+                  <a href="javascript:void(0)"><img src="../assets/images/products/s7.jpg" class="card-img-top rounded-0" alt="..."></a>
+                  <a href="javascript:void(0)" class="bg-primary rounded-circle p-2 text-white d-inline-flex position-absolute bottom-0 end-0 mb-n3 me-3" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Add To Cart"><i class="ti ti-basket fs-4"></i></a>                      </div>
+                <div class="card-body pt-3 p-4">
+                  <h6 class="fw-semibold fs-4">Red Valvet Dress</h6>
+                  <div class="d-flex align-items-center justify-content-between">
+                    <h6 class="fw-semibold fs-4 mb-0">$150 <span class="ms-2 fw-normal text-muted fs-3"><del>$200</del></span></h6>
+                    <ul class="list-unstyled d-flex align-items-center mb-0">
+                      <li><a class="me-1" href="javascript:void(0)"><i class="ti ti-star text-warning"></i></a></li>
+                      <li><a class="me-1" href="javascript:void(0)"><i class="ti ti-star text-warning"></i></a></li>
+                      <li><a class="me-1" href="javascript:void(0)"><i class="ti ti-star text-warning"></i></a></li>
+                      <li><a class="me-1" href="javascript:void(0)"><i class="ti ti-star text-warning"></i></a></li>
+                      <li><a class="" href="javascript:void(0)"><i class="ti ti-star text-warning"></i></a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+              <div class="card overflow-hidden rounded-2">
+                <div class="position-relative">
+                  <a href="javascript:void(0)"><img src="../assets/images/products/s11.jpg" class="card-img-top rounded-0" alt="..."></a>
+                  <a href="javascript:void(0)" class="bg-primary rounded-circle p-2 text-white d-inline-flex position-absolute bottom-0 end-0 mb-n3 me-3" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Add To Cart"><i class="ti ti-basket fs-4"></i></a>                      </div>
+                <div class="card-body pt-3 p-4">
+                  <h6 class="fw-semibold fs-4">Cute Soft Teddybear</h6>
+                  <div class="d-flex align-items-center justify-content-between">
+                    <h6 class="fw-semibold fs-4 mb-0">$285 <span class="ms-2 fw-normal text-muted fs-3"><del>$345</del></span></h6>
+                    <ul class="list-unstyled d-flex align-items-center mb-0">
+                      <li><a class="me-1" href="javascript:void(0)"><i class="ti ti-star text-warning"></i></a></li>
+                      <li><a class="me-1" href="javascript:void(0)"><i class="ti ti-star text-warning"></i></a></li>
+                      <li><a class="me-1" href="javascript:void(0)"><i class="ti ti-star text-warning"></i></a></li>
+                      <li><a class="me-1" href="javascript:void(0)"><i class="ti ti-star text-warning"></i></a></li>
+                      <li><a class="" href="javascript:void(0)"><i class="ti ti-star text-warning"></i></a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>-->
+          <div class="py-6 px-6 text-center">
+            <p class="mb-0 fs-4">Proyecto Especial Chavimochic <a href="https://www.gob.pe/chavimochic" target="_blank" class="pe-1 text-primary text-decoration-underline">Chavimochic.com</a> Siguenos en <a href="https://www.facebook.com/PECHAVIMOCHIC/?locale=es_LA">Redes Sociales</a></p>
+          </div>
+
+{% endblock content %}

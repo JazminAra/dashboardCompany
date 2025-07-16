@@ -1,0 +1,79 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block table %}
+
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Table Data</title>
+  <link rel="stylesheet" href="{% static 'css/styles.min.css' %}">
+</head>
+
+<body>
+  <div class="container">
+    <div class="table-responsive">
+      <table class="table text-nowrap mb-0 align-middle">
+        <thead class="text-dark fs-4">
+          <tr>
+            <th class="border-bottom-0">Id</th>
+            <th class="border-bottom-0">TIPO DOC.</th>
+            <th class="border-bottom-0">N° DOCUMENTO</th>
+            <th class="border-bottom-0">REMITENTE</th>
+            <th class="border-bottom-0">F. EMISION</th>
+            <th class="border-bottom-0">DESTINATARIO</th>
+            <th class="border-bottom-0">F. RECEPCION</th>
+            <th class="border-bottom-0">ESTADO</th>
+            <th class="border-bottom-0">TIEMPO DE ATENCIÓN</th>
+            <th class="border-bottom-0">SEMAFORO</th>
+            <th class="border-bottom-0">ASUNTO</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in data %}
+            <tr>
+              <td class="border-bottom-0"><h6 class="fw-semibold mb-0">{{ item.id }}</h6></td>
+              <td class="border-bottom-0"><h6 class="fw-semibold mb-1">{{ item.TIPO_DOC }}</h6></td>
+              <td class="border-bottom-0"><h6 class="fw-semibold mb-0">{{ item.N_DOCUMENTO }}</h6></td>
+              <td class="border-bottom-0"><p class="mb-0 fw-normal">{{ item.REMITENTE }}</p></td>
+              <td class="border-bottom-0"><h6 class="fw-semibold mb-0">{{ item.F_EMISION }}</h6></td>
+              <td class="border-bottom-0"><p class="mb-0 fw-normal">{{ item.DESTINATARIO }}</p></td>
+              <td class="border-bottom-0"><h6 class="fw-semibold mb-0">{{ item.F_RECEPCION }}</h6></td>
+              <td class="border-bottom-0">
+                <div class="d-flex align-items-center gap-2">
+                  <span class="badge bg-dark rounded-3 fw-semibold mb-0">{{ item.ESTADO }}</span>
+                </div>
+              </td>              
+              <td class="border-bottom-0"><h6 class="fw-semibold mb-0">{{ item.TIEMPO_DE_ATENCION }}</h6></td>
+              <td class="border-bottom-0">
+                <div class="d-flex align-items-center gap-2">
+                  {% if item.SEMAFORO|lower == "verde" %}
+                    <span class="badge bg-success rounded-3 fw-semibold">{{ item.SEMAFORO }}</span>
+                  {% elif item.SEMAFORO|lower == "amarillo" %}
+                    <span class="badge bg-warning rounded-3 fw-semibold">{{ item.SEMAFORO }}</span>
+                  {% elif item.SEMAFORO|lower == "rojo" %}
+                    <span class="badge bg-danger rounded-3 fw-semibold">{{ item.SEMAFORO }}</span>
+                  {% elif item.SEMAFORO|lower == "negro" %}
+                    <span class="badge bg-dark rounded-3 fw-semibold">{{ item.SEMAFORO }}</span>
+                  {% else %}
+                    <span class="badge bg-secondary rounded-3 fw-semibold">Desconocido</span>
+                  {% endif %}
+                </div>
+              </td>
+              <td class="border-bottom-0"><p class="mb-0 fw-normal">{{ item.ASUNTO }}</p></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="{% static 'libs/jquery/dist/jquery.min.js' %}"></script>
+  <script src="{% static 'libs/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+</body>
+
+</html>
+
+{% endblock table %}
