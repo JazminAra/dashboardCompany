@@ -20,7 +20,7 @@ $ py -m venv prueba
 $ venv\Scripts\activate
 $ python main.py
 ```
-* UTILIZAR para EJECUTAR::
+* UTILIZAR para EJECUTAR:
 ```bash
 $ cd dashboard
 $ prueba\Scripts\activate
@@ -36,5 +36,5 @@ $ python manage.py runserver (ejecutar)
 ```
 
 * DASBHBOARD PYTHON:
-  Componentes que se utiliza https://plotly.com/python/ .Primero se debe crear el urls.py para vincularlos con el config.py, luego el views.py son las funciones que le enviamos en el HTML de templates.
+Componentes que se utiliza https://plotly.com/python/ .Primero se debe crear el urls.py para vincularlos con el config.py, luego el views.py son las funciones que le enviamos en el HTML de templates.
 
