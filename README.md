@@ -35,6 +35,6 @@ $ pip install plotly
 $ python manage.py runserver (ejecutar)
 ```
 
-* DASBHBOARD PYTHON: Componentes que se utiliza
-https://plotly.com/python/ .Primero se debe crear el urls.py para vincularlos con el config.py, luego el views.py son las funciones que le enviamos en el HTML de templates.
+* DASBHBOARD PYTHON:
+  Componentes que se utiliza https://plotly.com/python/ .Primero se debe crear el urls.py para vincularlos con el config.py, luego el views.py son las funciones que le enviamos en el HTML de templates.
 
